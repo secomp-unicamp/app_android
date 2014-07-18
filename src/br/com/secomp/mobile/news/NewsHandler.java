@@ -1,0 +1,80 @@
+/*
+ * Secomp Mobile. This software is intended for attendants at the Semana de Computação that takes place at UNICAMP, Brazil.
+ * Copyright (C) 2014  Edson Duarte (edsonduarte1990@gmail.com)
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package br.com.secomp.mobile.news;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+public class NewsHandler extends DefaultHandler {
+	private List<NewsItem> items;
+
+	private NewsItem currentItem;
+	private boolean parsingTitle;
+	private boolean parsingLink;
+
+	public NewsHandler() {
+		// TODO Auto-generated constructor stub
+		items = new ArrayList<NewsItem>();
+	}
+
+	public List<NewsItem> getItems() {
+		return this.items;
+	}
+
+	@Override
+	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+		if (qName.equals("item")) {
+			currentItem = new NewsItem();
+		} else if (qName.equals("title")) {
+			parsingTitle = true;
+		} else if (qName.equals("link")) {
+			parsingLink = true;
+		}
+	}
+
+	@Override
+	public void endElement(String uri, String localName, String qName) throws SAXException {
+		if (qName.equals("item")) {
+			items.add(currentItem);
+			currentItem = null;
+		} else if (qName.equals("title")) {
+			parsingTitle = false;
+		} else if (qName.equals("link")) {
+			parsingLink = false;
+		}
+	}
+
+	@Override
+	public void characters(char[] ch, int start, int length) throws SAXException {
+		if (parsingTitle) {
+			if (currentItem != null)
+				currentItem.setTitle(new String(ch, start, length));
+		} else if (parsingLink) {
+			if (currentItem != null) {
+				currentItem.setURL(new String(ch, start, length));
+				parsingLink = false;
+			}
+		}
+	}
+
+}

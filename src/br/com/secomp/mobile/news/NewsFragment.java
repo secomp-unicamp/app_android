@@ -1,12 +1,32 @@
-package br.com.secomp.mobile;
+/*
+ * Secomp Mobile. This software is intended for attendants at the Semana de Computação that takes place at UNICAMP, Brazil.
+ * Copyright (C) 2014  Edson Duarte (edsonduarte1990@gmail.com)
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package br.com.secomp.mobile.news;
 
 import android.app.Activity;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
-
 import br.com.secomp.mobile.dummy.DummyContent;
 
 /**
@@ -54,9 +74,12 @@ public class NewsFragment extends ListFragment {
 			mParam1 = getArguments().getString(ARG_PARAM1);
 			mParam2 = getArguments().getString(ARG_PARAM2);
 		}
+		
+		new NewsContent(getActivity());
 
 		// TODO: Change Adapter to display your content
-		setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
+		//setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
+		setListAdapter(new ArrayAdapter<NewsItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, NewsContent.getItems()));
 	}
 
 	@Override
