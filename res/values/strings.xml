@@ -1,5 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Aplicativo Secomp</string>
+    <string name="app_name">Secomp Mobile</string>
+    <string name="title_activity_main">Secomp</string>
+    <string name="title_section_news">News</string>
+    <string name="title_section_schedule">Schedule</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    
+    <string-array name="sections">
+        <item>@string/title_section_news</item>
+        <item>@string/title_section_schedule</item>
+    </string-array>
 
 </resources>
