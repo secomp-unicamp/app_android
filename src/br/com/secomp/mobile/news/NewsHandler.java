@@ -29,11 +29,14 @@ public class NewsHandler extends DefaultHandler {
 	private List<NewsItem> items;
 
 	private NewsItem currentItem;
+
 	private boolean parsingTitle;
+	private StringBuffer titleBuffer;
+
 	private boolean parsingLink;
+	private StringBuffer linkBuffer;
 
 	public NewsHandler() {
-		// TODO Auto-generated constructor stub
 		items = new ArrayList<NewsItem>();
 	}
 
@@ -47,8 +50,10 @@ public class NewsHandler extends DefaultHandler {
 			currentItem = new NewsItem();
 		} else if (qName.equals("title")) {
 			parsingTitle = true;
+			titleBuffer = new StringBuffer();
 		} else if (qName.equals("link")) {
 			parsingLink = true;
+			linkBuffer = new StringBuffer();
 		}
 	}
 
@@ -59,21 +64,22 @@ public class NewsHandler extends DefaultHandler {
 			currentItem = null;
 		} else if (qName.equals("title")) {
 			parsingTitle = false;
+			if (currentItem != null)
+				currentItem.setTitle(titleBuffer.toString());
 		} else if (qName.equals("link")) {
 			parsingLink = false;
+			if (currentItem != null)
+				currentItem.setURL(linkBuffer.toString());
 		}
 	}
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
-		if (parsingTitle) {
-			if (currentItem != null)
-				currentItem.setTitle(new String(ch, start, length));
-		} else if (parsingLink) {
-			if (currentItem != null) {
-				currentItem.setURL(new String(ch, start, length));
-				parsingLink = false;
-			}
+		if (currentItem != null) {
+			if (parsingTitle)
+				titleBuffer.append(new String(ch, start, length));
+			else if (parsingLink)
+				linkBuffer.append(new String(ch, start, length));
 		}
 	}
 

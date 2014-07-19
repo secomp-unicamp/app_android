@@ -18,11 +18,16 @@
 
 package br.com.secomp.mobile;
 
+import java.util.ArrayList;
+
 import br.com.secomp.mobile.news.NewsFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,15 +45,16 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.activity_main);
 
 		// Set up the action bar to show a dropdown list.
 		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		// Set up the dropdown list navigation in the action bar.
+		// TODO when logged should display user info.
 		actionBar.setListNavigationCallbacks(new ArrayAdapter<String>(actionBar.getThemedContext(), android.R.layout.simple_list_item_1, android.R.id.text1, getResources().getStringArray(R.array.sections)), this);
 	}
 
@@ -62,6 +68,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 		// Serialize the current dropdown position.
 		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getSupportActionBar().getSelectedNavigationIndex());
 	}
@@ -69,6 +76,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
+		// TODO Check if user is logged in!
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
@@ -91,10 +99,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
 		if (position == 0)
-			getSupportFragmentManager().beginTransaction().replace(R.id.container, NewsFragment.newInstance("t", "e")).commit();
+			getSupportFragmentManager().beginTransaction().replace(R.id.container, NewsFragment.getInstance()).commit(); //NewsFragment.newInstance("t", "e")).commit();
 		else
 			getSupportFragmentManager().beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).commit();
 		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see br.com.secomp.mobile.NewsFragment.OnFragmentInteractionListener#onFragmentInteraction(java.lang.String)
+	 */
+	@Override
+	public void onFragmentInteraction(String url) {
+		// TODO Change id to show the type of list and open new activity depending on it.
+		Log.d("secomp", url);
+		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
 	}
 
 	/**
@@ -126,15 +144,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
 			View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 			return rootView;
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see br.com.secomp.mobile.NewsFragment.OnFragmentInteractionListener#onFragmentInteraction(java.lang.String)
-	 */
-	@Override
-	public void onFragmentInteraction(String url) {
-		// TODO Change id to show the type of list and open new activity depending on it.
-		
 	}
 
 }

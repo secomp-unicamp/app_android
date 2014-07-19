@@ -18,13 +18,16 @@
 
 package br.com.secomp.mobile.news;
 
-public class NewsItem {
+import java.io.Serializable;
+
+public class NewsItem implements Serializable {
+	private static final long serialVersionUID = -9058550312629715709L;
+	
 	String id;
 	String title;
 	String url;
 	
 	public NewsItem() {
-
 	}
 
 	@Override
