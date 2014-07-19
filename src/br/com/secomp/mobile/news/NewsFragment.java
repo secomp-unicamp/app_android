@@ -20,7 +20,6 @@ package br.com.secomp.mobile.news;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
@@ -75,10 +74,6 @@ public class NewsFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// TODO: Change Adapter to display your content
-		//setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
-
 		setRetainInstance(true);
 	}
 
@@ -90,16 +85,6 @@ public class NewsFragment extends ListFragment {
 		if (this.newsList != null)
 			setListAdapter(new ArrayAdapter<NewsItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, this.newsList));
 		return super.onCreateView(inflater, container, savedInstanceState);
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@Override
-	public void onSaveInstanceState (Bundle outState) {
-		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -158,7 +143,7 @@ public class NewsFragment extends ListFragment {
 				parser.parse(urls[0], handler);
 				return handler.getItems();
 			} catch (IOException e) {
-
+				Log.d("secomp", "no connection");
 			} // catching ParserConfigurationException and SAXException
 			catch (Exception e) {
 				e.printStackTrace();
@@ -171,6 +156,7 @@ public class NewsFragment extends ListFragment {
 		protected void onPostExecute(List<NewsItem> result) {
 			if (result != null) {
 				NewsFragment.getInstance().setNewsList((ArrayList<NewsItem>) result);
+				// send broadcast!
 				NewsFragment.getInstance().setListAdapter(new ArrayAdapter<NewsItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, NewsFragment.getInstance().newsList));
 				Log.d("secomp", "done");
 			}

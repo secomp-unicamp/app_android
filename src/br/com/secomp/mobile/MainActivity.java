@@ -18,67 +18,84 @@
 
 package br.com.secomp.mobile;
 
-import java.util.ArrayList;
-
 import br.com.secomp.mobile.news.NewsFragment;
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity implements ActionBar.OnNavigationListener, NewsFragment.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, NewsFragment.OnFragmentInteractionListener {
 
 	/**
-	 * The serialization (saved instance state) Bundle key representing the
-	 * current dropdown position.
+	 * Fragment managing the behaviors, interactions and presentation of the
+	 * navigation drawer.
 	 */
-	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+	private NavigationDrawerFragment mNavigationDrawerFragment;
+
+	/**
+	 * Used to store the last screen title. For use in
+	 * {@link #restoreActionBar()}.
+	 */
+	private CharSequence mTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);		
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// Set up the action bar to show a dropdown list.
-		final ActionBar actionBar = getSupportActionBar();
+		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+		mTitle = getTitle();
+
+		// Set up the drawer.
+		mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+	}
+
+	@Override
+	public void onNavigationDrawerItemSelected(int position) {
+		// update the main content by replacing fragments
+
+		if (position == 0)
+			getSupportFragmentManager().beginTransaction().replace(R.id.container, NewsFragment.getInstance()).commit();
+	}
+
+	public void onSectionAttached(int number) {
+		mTitle = getResources().getStringArray(R.array.sections)[number-1];
+	}
+
+	public void restoreActionBar() {
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-		// Set up the dropdown list navigation in the action bar.
-		// TODO when logged should display user info.
-		actionBar.setListNavigationCallbacks(new ArrayAdapter<String>(actionBar.getThemedContext(), android.R.layout.simple_list_item_1, android.R.id.text1, getResources().getStringArray(R.array.sections)), this);
-	}
-
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		// Restore the previously serialized current dropdown position.
-		if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
-			getSupportActionBar().setSelectedNavigationItem(savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
-		}
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		// Serialize the current dropdown position.
-		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getSupportActionBar().getSelectedNavigationIndex());
+		actionBar.setTitle(mTitle);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		// TODO Check if user is logged in!
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+		if (!mNavigationDrawerFragment.isDrawerOpen()) {
+			// Only show items in the action bar relevant to this screen
+			// if the drawer is not showing. Otherwise, let the drawer
+			// decide what to show in the action bar.
+			getMenuInflater().inflate(R.menu.main, menu);
+			restoreActionBar();
+			return true;
+		}
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
@@ -88,62 +105,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
-			// TODO open settings screen.
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	public boolean onNavigationItemSelected(int position, long id) {
-		// When the given dropdown item is selected, show its contents in the
-		// container view.
-		if (position == 0)
-			getSupportFragmentManager().beginTransaction().replace(R.id.container, NewsFragment.getInstance()).commit(); //NewsFragment.newInstance("t", "e")).commit();
-		else
-			getSupportFragmentManager().beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).commit();
-		return true;
-	}
-
 	/* (non-Javadoc)
-	 * @see br.com.secomp.mobile.NewsFragment.OnFragmentInteractionListener#onFragmentInteraction(java.lang.String)
+	 * @see br.com.secomp.mobile.news.NewsFragment.OnFragmentInteractionListener#onFragmentInteraction(java.lang.String)
 	 */
 	@Override
 	public void onFragmentInteraction(String url) {
-		// TODO Change id to show the type of list and open new activity depending on it.
-		Log.d("secomp", url);
 		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		private static final String ARG_SECTION_NUMBER = "section_number";
-
-		/**
-		 * Returns a new instance of this fragment for the given section number.
-		 */
-		public static PlaceholderFragment newInstance(int sectionNumber) {
-			PlaceholderFragment fragment = new PlaceholderFragment();
-			Bundle args = new Bundle();
-			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-			fragment.setArguments(args);
-			return fragment;
-		}
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-			return rootView;
-		}
 	}
 
 }

@@ -45,28 +45,28 @@ public class NewsHandler extends DefaultHandler {
 	}
 
 	@Override
-	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-		if (qName.equals("item")) {
+	public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
+		if (name.equals("item")) {
 			currentItem = new NewsItem();
-		} else if (qName.equals("title")) {
+		} else if (name.equals("title")) {
 			parsingTitle = true;
 			titleBuffer = new StringBuffer();
-		} else if (qName.equals("link")) {
+		} else if (name.equals("link")) {
 			parsingLink = true;
 			linkBuffer = new StringBuffer();
 		}
 	}
 
 	@Override
-	public void endElement(String uri, String localName, String qName) throws SAXException {
-		if (qName.equals("item")) {
+	public void endElement(String uri, String localName, String name) throws SAXException {
+		if (name.equals("item")) {
 			items.add(currentItem);
 			currentItem = null;
-		} else if (qName.equals("title")) {
+		} else if (name.equals("title")) {
 			parsingTitle = false;
 			if (currentItem != null)
 				currentItem.setTitle(titleBuffer.toString());
-		} else if (qName.equals("link")) {
+		} else if (name.equals("link")) {
 			parsingLink = false;
 			if (currentItem != null)
 				currentItem.setURL(linkBuffer.toString());
