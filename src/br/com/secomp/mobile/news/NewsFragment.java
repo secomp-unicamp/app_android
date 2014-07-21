@@ -25,10 +25,13 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import br.com.secomp.mobile.MainActivity;
+import br.com.secomp.mobile.OnFragmentInteractionListener;
 import br.com.secomp.mobile.R;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,13 +49,20 @@ import android.widget.ListView;
  */
 public class NewsFragment extends ListFragment {
 
-	private OnFragmentInteractionListener mListener;
+	private static String UPDATE_LAST = "UPDATE_LAST";
+	private static long UPDATE_INTERVAL = 10000;//21600000; // 6 hours
+	
 	
 	private static NewsFragment INSTANCE = new NewsFragment();
 	
 	public static NewsFragment getInstance() {
 		return NewsFragment.INSTANCE;
 	}
+	
+
+	private long lastUpdate;
+	
+	private OnFragmentInteractionListener mListener;
 
 	private ArrayList<NewsItem> newsList = null;
 	
@@ -69,11 +79,15 @@ public class NewsFragment extends ListFragment {
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString() + " must implement OnFragmentInteractionListener");
 		}
+		((MainActivity) activity).onSectionAttached(0); // weird...
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		lastUpdate = PreferenceManager.getDefaultSharedPreferences(getActivity()).getLong(UPDATE_LAST, 0);
+		
 		setRetainInstance(true);
 	}
 
@@ -90,6 +104,7 @@ public class NewsFragment extends ListFragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putLong(UPDATE_LAST, lastUpdate);
 		// TODO save list to disk;
 	}
 
@@ -111,22 +126,11 @@ public class NewsFragment extends ListFragment {
 	}
 
 	private void update() {
+		if (System.currentTimeMillis() - lastUpdate > UPDATE_INTERVAL) {
 		NewsTask task = new NewsTask();
 		task.execute(getString(R.string.url_rss));
-	}
-
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated to
-	 * the activity and potentially other fragments contained in that activity.
-	 * <p>
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
-	public interface OnFragmentInteractionListener {
-		// TODO: Update argument type and name
-		public void onFragmentInteraction(String url);
+		lastUpdate = System.currentTimeMillis();
+		}
 	}
 
 	private class NewsTask extends AsyncTask<String, Void, List<NewsItem>> {

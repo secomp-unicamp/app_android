@@ -1,0 +1,19 @@
+v0.0.6-8
+Loading Atom successfully, need to send broadcast when finished and notify user when there's no connection.
+Added AboutActivity.
+
+v0.0.5
+MainActivity now using NavigationDrawer.
+
+v0.0.4
+Changed code to load Atom, still broken.
+
+v0.0.3
+Some code to load RSS.
+Changed icon.
+
+v0.0.2
+Set up MainActivity using Spinner.
+
+v0.0.1
+Initial set up with icon.

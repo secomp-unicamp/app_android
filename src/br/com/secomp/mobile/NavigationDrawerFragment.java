@@ -105,7 +105,7 @@ public class NavigationDrawerFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		// Indicate that this fragment would like to influence the set of
 		// actions in the action bar.
-		setHasOptionsMenu(true);
+		setHasOptionsMenu(false);
 	}
 
 	@Override
@@ -113,8 +113,7 @@ public class NavigationDrawerFragment extends Fragment {
 		mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 		mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				selectItem(position);
 			}
 		});
@@ -185,10 +184,8 @@ public class NavigationDrawerFragment extends Fragment {
 					// prevent auto-showing
 					// the navigation drawer automatically in the future.
 					mUserLearnedDrawer = true;
-					SharedPreferences sp = PreferenceManager
-							.getDefaultSharedPreferences(getActivity());
-					sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true)
-					.commit();
+					SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+					sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).commit();
 				}
 
 				getActivity().supportInvalidateOptionsMenu(); // calls
@@ -233,8 +230,7 @@ public class NavigationDrawerFragment extends Fragment {
 		try {
 			mCallbacks = (NavigationDrawerCallbacks) activity;
 		} catch (ClassCastException e) {
-			throw new ClassCastException(
-					"Activity must implement NavigationDrawerCallbacks.");
+			throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
 		}
 	}
 
@@ -277,8 +273,7 @@ public class NavigationDrawerFragment extends Fragment {
 		}
 
 		if (item.getItemId() == R.id.action_example) {
-			Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT)
-			.show();
+			Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 

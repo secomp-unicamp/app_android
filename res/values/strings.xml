@@ -3,23 +3,32 @@
 
     <!-- Global -->
     <string name="app_name">Secomp Mobile</string>
+    <string name="app_version">v0.0.6</string>
     <string name="title_activity_main">Secomp</string>
     <string name="title_section_news">News</string>
     <string name="title_section_schedule">Schedule</string>
     <string name="title_section_sponsors">Sponsors</string>
     <string name="title_section_user">User</string>
+    <string name="title_section_about">About</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    
-    <!-- Links -->
-    <string name="url_rss">http://www.secomp.com.br/feed/</string>
 
     <string-array name="sections">
         <item>@string/title_section_news</item>
         <item>@string/title_section_schedule</item>
         <item>@string/title_section_sponsors</item>
         <item>@string/title_section_user</item>
+        <item>@string/title_section_about</item>
     </string-array>
+
+    <!-- Links -->
+    <string name="url_website">http://www.secomp.com.br/</string>
+    <string name="url_rss">http://www.secomp.com.br/feed/</string>
+    <string name="url_facebook">https://www.facebook.com/secompunicamp/</string>
+    <string name="url_facebook_apk">fb://profile/221593557862992</string>
+    <string name="url_twitter">https://www.twitter.com/secompunicamp/</string>
+    <string name="url_twitter_apk">fb://profile/221593557862992</string>
+    <string name="url_github">https://github.com/secomp-unicamp/app_android</string>
 
     <!-- Menu -->
     <string name="action_log_in">Log In</string>
@@ -28,7 +37,18 @@
 
     <!-- Errors -->
     <string name="error_connection">There is no connection.</string>
-
+    
+    <!-- AboutFragment -->
+	<string name="label_copyleft">Copyright (C) 2014 Edson Duarte</string>
+	<string name="label_license">Source code of this app is GPLv3+ licensed.</string>
+	<string name="label_other">Names, brands and logos are registered by their respective owners.</string>
+	<string name="button_facebook">Secomp\'s page on Facebook</string>
+	<string name="button_twitter">Follow Secomp on Twitter</string>
+	<string name="button_github">Project on Github</string>
+	<string name="a"></string>
+    
+    <!-- Delete -->
     <string name="action_example">Example action</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

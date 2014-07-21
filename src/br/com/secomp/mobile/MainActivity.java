@@ -18,29 +18,18 @@
 
 package br.com.secomp.mobile;
 
+import br.com.secomp.mobile.about.AboutFragment;
 import br.com.secomp.mobile.news.NewsFragment;
-import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, NewsFragment.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, OnFragmentInteractionListener {
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
@@ -68,14 +57,18 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
-		// update the main content by replacing fragments
-
-		if (position == 0)
+		switch(position) {
+		case 0:
 			getSupportFragmentManager().beginTransaction().replace(R.id.container, NewsFragment.getInstance()).commit();
+			break;
+		case 4:
+			getSupportFragmentManager().beginTransaction().replace(R.id.container, new AboutFragment()).commit();
+			break;
+		}
 	}
 
 	public void onSectionAttached(int number) {
-		mTitle = getResources().getStringArray(R.array.sections)[number-1];
+		mTitle = getResources().getStringArray(R.array.sections)[number];
 	}
 
 	public void restoreActionBar() {
@@ -115,7 +108,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 	 */
 	@Override
 	public void onFragmentInteraction(String url) {
-		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+		startActivity(Intent.createChooser(new Intent(Intent.ACTION_VIEW, Uri.parse(url)), ""));
 	}
 
 }
