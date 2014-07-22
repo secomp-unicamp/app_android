@@ -3,7 +3,7 @@
 
     <!-- Global -->
     <string name="app_name">Secomp Mobile</string>
-    <string name="app_version">v0.0.6</string>
+    <string name="app_version">v0.0.7</string>
     <string name="title_activity_main">Secomp</string>
     <string name="title_section_news">News</string>
     <string name="title_section_schedule">Schedule</string>
@@ -38,13 +38,45 @@
     <!-- Errors -->
     <string name="error_connection">There is no connection.</string>
     
+    <!-- SponsorsFragment -->
+    <string-array name="sponsors_groups_names">
+        <item>Platinum</item>
+        <item>Gold</item>
+        <item>Silver</item>
+        <item>Bronze</item>
+    </string-array>
+    <string-array name="sponsors_groups">
+        <item>@array/sponsors_platinum</item>
+        <item>@array/sponsors_gold</item>
+        <item>@array/sponsors_silver</item>
+        <item>@array/sponsors_bronze</item>
+    </string-array>
+    <string-array name="sponsors_platinum">
+        <item>@drawable/intel</item>
+    </string-array>
+    <string-array name="sponsors_gold">
+        <item>@drawable/faepex</item>
+    </string-array>
+    <string-array name="sponsors_silver">
+        <item>@drawable/samsung</item>
+        <item>@drawable/movile</item>
+        <item>@drawable/padtec</item>
+        <item>@drawable/appi</item>
+    </string-array>
+    <string-array name="sponsors_bronze">
+        <item>@drawable/kryptus</item>
+        <item>@drawable/matera</item>
+        <item>@drawable/daitan</item>
+    </string-array>
+    
     <!-- AboutFragment -->
 	<string name="label_copyleft">Copyright (C) 2014 Edson Duarte</string>
 	<string name="label_license">Source code of this app is GPLv3+ licensed.</string>
 	<string name="label_other">Names, brands and logos are registered by their respective owners.</string>
-	<string name="button_facebook">Secomp\'s page on Facebook</string>
-	<string name="button_twitter">Follow Secomp on Twitter</string>
-	<string name="button_github">Project on Github</string>
+	<string name="description_secomp">Go to secomp.com.br</string>
+	<string name="description_facebook">Secomp\'s page on Facebook</string>
+	<string name="description_twitter">Follow Secomp on Twitter</string>
+	<string name="description_github">Project on Github</string>
 	<string name="a"></string>
     
     <!-- Delete -->

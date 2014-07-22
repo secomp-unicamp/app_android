@@ -51,21 +51,21 @@ public class NewsFragment extends ListFragment {
 
 	private static String UPDATE_LAST = "UPDATE_LAST";
 	private static long UPDATE_INTERVAL = 10000;//21600000; // 6 hours
-	
-	
+
+
 	private static NewsFragment INSTANCE = new NewsFragment();
-	
+
 	public static NewsFragment getInstance() {
 		return NewsFragment.INSTANCE;
 	}
-	
+
 
 	private long lastUpdate;
-	
+
 	private OnFragmentInteractionListener mListener;
 
 	private ArrayList<NewsItem> newsList = null;
-	
+
 	public void setNewsList(ArrayList<NewsItem> newsList) {
 		this.newsList = newsList;
 	}
@@ -85,9 +85,9 @@ public class NewsFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		lastUpdate = PreferenceManager.getDefaultSharedPreferences(getActivity()).getLong(UPDATE_LAST, 0);
-		
+
 		setRetainInstance(true);
 	}
 
@@ -127,9 +127,9 @@ public class NewsFragment extends ListFragment {
 
 	private void update() {
 		if (System.currentTimeMillis() - lastUpdate > UPDATE_INTERVAL) {
-		NewsTask task = new NewsTask();
-		task.execute(getString(R.string.url_rss));
-		lastUpdate = System.currentTimeMillis();
+			NewsTask task = new NewsTask();
+			task.execute(getString(R.string.url_rss));
+			lastUpdate = System.currentTimeMillis();
 		}
 	}
 
@@ -161,7 +161,7 @@ public class NewsFragment extends ListFragment {
 			if (result != null) {
 				NewsFragment.getInstance().setNewsList((ArrayList<NewsItem>) result);
 				// send broadcast!
-				NewsFragment.getInstance().setListAdapter(new ArrayAdapter<NewsItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, NewsFragment.getInstance().newsList));
+				//				NewsFragment.getInstance().setListAdapter(new ArrayAdapter<NewsItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, NewsFragment.getInstance().newsList));
 				Log.d("secomp", "done");
 			}
 		}

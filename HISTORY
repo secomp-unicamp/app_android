@@ -1,6 +1,9 @@
+v0.0.7-9
+Added SponsorsFragment.
+
 v0.0.6-8
 Loading Atom successfully, need to send broadcast when finished and notify user when there's no connection.
-Added AboutActivity.
+Added AboutFragment.
 
 v0.0.5
 MainActivity now using NavigationDrawer.

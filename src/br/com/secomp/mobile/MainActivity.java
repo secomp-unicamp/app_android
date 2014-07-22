@@ -20,6 +20,7 @@ package br.com.secomp.mobile;
 
 import br.com.secomp.mobile.about.AboutFragment;
 import br.com.secomp.mobile.news.NewsFragment;
+import br.com.secomp.mobile.sponsors.SponsorsFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
@@ -60,6 +61,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 		switch(position) {
 		case 0:
 			getSupportFragmentManager().beginTransaction().replace(R.id.container, NewsFragment.getInstance()).commit();
+			break;
+		case 2:
+			getSupportFragmentManager().beginTransaction().replace(R.id.container, new SponsorsFragment()).commit();
 			break;
 		case 4:
 			getSupportFragmentManager().beginTransaction().replace(R.id.container, new AboutFragment()).commit();
