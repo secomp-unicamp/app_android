@@ -60,7 +60,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 	public void onNavigationDrawerItemSelected(int position) {
 		switch(position) {
 		case 0:
-			getSupportFragmentManager().beginTransaction().replace(R.id.container, NewsFragment.getInstance()).commit();
+			getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewsFragment()).commit();
 			break;
 		case 2:
 			getSupportFragmentManager().beginTransaction().replace(R.id.container, new SponsorsFragment()).commit();

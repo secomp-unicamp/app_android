@@ -19,26 +19,18 @@
 package br.com.secomp.mobile.sponsors;
 
 import br.com.secomp.mobile.MainActivity;
-import br.com.secomp.mobile.OnFragmentInteractionListener;
 import br.com.secomp.mobile.R;
-import br.com.secomp.mobile.R.layout;
-import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -52,7 +44,7 @@ import android.widget.TextView;
  */
 public class SponsorsFragment extends Fragment {
 
-	private OnFragmentInteractionListener mListener;
+	//private OnFragmentInteractionListener mListener; // will be necessary if there's a need to open link from clicking on images.
 
 
 	@Override
@@ -75,7 +67,10 @@ public class SponsorsFragment extends Fragment {
 		for (int i = 0; i < groupsArray.length(); i++) {
 			TextView groupView = new TextView(getActivity());
 			groupView.setText(getActivity().getResources().getStringArray(R.array.sponsors_groups_names)[i]);
+			groupView.setTextAppearance(getActivity(), android.R.style.TextAppearance_Medium);
+			groupView.setTypeface(Typeface.DEFAULT_BOLD);
 			groupView.setGravity(Gravity.CENTER);
+			groupView.setPadding(0, 20, 0, 5);
 			sponsorsLayout.addView(groupView);
 			
 			LinearLayout groupLayout = new LinearLayout(getActivity());
@@ -84,6 +79,7 @@ public class SponsorsFragment extends Fragment {
 			for (int j = 0; j < sponsorsArray.length(); j++) {
 				ImageView sponsorView = new ImageView(getActivity());
 				sponsorView.setImageResource(sponsorsArray.getResourceId(j, -1));
+				sponsorView.setPadding(5, 5, 5, 5);
 				groupLayout.addView(sponsorView);
 			}
 			sponsorsArray.recycle();
@@ -100,17 +96,17 @@ public class SponsorsFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		try {
-			mListener = (OnFragmentInteractionListener) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString() + " must implement OnFragmentInteractionListener");
-		}
+//		try {
+//			mListener = (OnFragmentInteractionListener) activity;
+//		} catch (ClassCastException e) {
+//			throw new ClassCastException(activity.toString() + " must implement OnFragmentInteractionListener");
+//		}
 		((MainActivity) activity).onSectionAttached(2); // weird...
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		mListener = null;
+//		mListener = null;
 	}
 }

@@ -78,9 +78,6 @@ public class NavigationDrawerFragment extends Fragment {
 	private boolean mFromSavedInstanceState;
 	private boolean mUserLearnedDrawer;
 
-	public NavigationDrawerFragment() {
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -105,7 +102,7 @@ public class NavigationDrawerFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		// Indicate that this fragment would like to influence the set of
 		// actions in the action bar.
-		setHasOptionsMenu(false);
+		setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -149,28 +146,7 @@ public class NavigationDrawerFragment extends Fragment {
 
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the navigation drawer and the action bar app icon.
-		mDrawerToggle = new ActionBarDrawerToggle(getActivity(), /* host Activity */
-				mDrawerLayout, /* DrawerLayout object */
-				R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-				R.string.navigation_drawer_open, /*
-				 * "open drawer" description for
-				 * accessibility
-				 */
-				R.string.navigation_drawer_close /*
-				 * "close drawer" description for
-				 * accessibility
-				 */
-				) {
-			@Override
-			public void onDrawerClosed(View drawerView) {
-				super.onDrawerClosed(drawerView);
-				if (!isAdded()) {
-					return;
-				}
-
-				getActivity().supportInvalidateOptionsMenu(); // calls
-				// onPrepareOptionsMenu()
-			}
+		mDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, R.drawable.ic_drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
@@ -186,6 +162,18 @@ public class NavigationDrawerFragment extends Fragment {
 					mUserLearnedDrawer = true;
 					SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 					sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).commit();
+				}
+
+				getActionBar().setTitle(mDrawerLayout.getContext().getString(R.string.app_name));
+				getActivity().supportInvalidateOptionsMenu(); // calls
+				// onPrepareOptionsMenu()
+			}
+
+			@Override
+			public void onDrawerClosed(View drawerView) {
+				super.onDrawerClosed(drawerView);
+				if (!isAdded()) {
+					return;
 				}
 
 				getActivity().supportInvalidateOptionsMenu(); // calls
@@ -271,7 +259,7 @@ public class NavigationDrawerFragment extends Fragment {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-
+		
 		if (item.getItemId() == R.id.action_example) {
 			Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
 			return true;

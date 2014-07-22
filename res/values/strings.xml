@@ -3,8 +3,7 @@
 
     <!-- Global -->
     <string name="app_name">Secomp Mobile</string>
-    <string name="app_version">v0.0.7</string>
-    <string name="title_activity_main">Secomp</string>
+    <string name="app_version">v0.1</string>
     <string name="title_section_news">News</string>
     <string name="title_section_schedule">Schedule</string>
     <string name="title_section_sponsors">Sponsors</string>
